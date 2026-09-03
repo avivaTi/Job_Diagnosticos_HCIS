@@ -44,11 +44,15 @@ namespace Aviva.Pres.Ordenes.Demonio.Data
                         ";
 
                 using (SqlCommand cmdPres = new SqlCommand(queryDiagnosticos, conexion))
-                using (SqlDataReader dr = cmdPres.ExecuteReader())
                 {
-                    while (dr.Read())
+                    cmdPres.CommandTimeout = 300; // 5 minutos
+
+                    using (SqlDataReader dr = cmdPres.ExecuteReader())
                     {
-                        diagnosticos.Add(MapearDiagnosticos(dr));
+                        while (dr.Read())
+                        {
+                            diagnosticos.Add(MapearDiagnosticos(dr));
+                        }
                     }
                 }
 
